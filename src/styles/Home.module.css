@@ -1,0 +1,15 @@
+.main {
+  height: 100vh;
+  background: rgb(57, 73, 68);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainContent {
+  display: flex;
+}
+
+.offers {
+  margin-top: auto;
+}
