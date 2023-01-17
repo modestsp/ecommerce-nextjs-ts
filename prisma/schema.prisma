@@ -18,7 +18,7 @@ model User {
   password   String
   sessions   Session[]
   createdAt  DateTime  @default(now())
-  modifiedAt DateTime
+  modifiedAt DateTime  @default(now())
 }
 
 model Session {
@@ -31,24 +31,28 @@ model Session {
 
 model ProductCategory {
   id         String    @id @default(uuid())
-  desc       String
+  name       String
   createdAt  DateTime  @default(now())
-  modifiedAt DateTime
-  deletedAt  DateTime
+  modifiedAt DateTime  @default(now())
+  deletedAt  DateTime?
   products   Product[]
 }
 
 model Product {
-  id         String          @id @default(uuid())
-  name       String
-  url        String
-  stars      Float
-  reviews    Review[]
-  category   ProductCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
-  createdAt  DateTime        @default(now())
-  modifiedAt DateTime
-  deletedAt  DateTime
+  id               String          @id @default(uuid())
+  name             String
+  url              String
+  stars            Float           @default(5)
+  price            Float?
+  reviews          Review[]
+  tags             String[]
+  category         ProductCategory @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  photographerUrl  String
+  photographerName String
+  createdAt        DateTime        @default(now())
+  modifiedAt       DateTime        @default(now())
+  deletedAt        DateTime?
 }
 
 model Review {
