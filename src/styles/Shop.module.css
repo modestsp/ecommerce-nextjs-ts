@@ -1,0 +1,43 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(154, 204, 188);
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20%;
+  padding: 1rem;
+}
+
+.mainContent {
+  display: flex;
+  /* overflow: scroll; */
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+}
+
+.productsContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /* overflow: scroll; */
+  /* overflow: auto; */
+}
+
+.productCard {
+  /* background-color: black; */
+}
