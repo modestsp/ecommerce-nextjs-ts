@@ -1,21 +1,44 @@
+import fetchJson from '@/lib/fetchJson';
+import useUser from '@/lib/useUser';
 import { useState } from 'react';
 
 const Login = () => {
   const [username, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const { mutateUser } = useUser({
+    redirectTo: '/shop',
+    redirectIfFound: true,
+  });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const login = 'http://localhost:3000/api/login';
-    const response = await fetch(login, {
-      method: 'POST',
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-    const final = await response.json();
-    console.log('LOGGED', final);
+    const login = '/api/auth/login';
+    try {
+      mutateUser(
+        await fetchJson(login, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }),
+        false
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    // const response = await fetch(login, {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     username,
+    //     password,
+    //   }),
+    // });
+    // const final = await response.json();
+    // console.log('LOGGED', final);
   };
   return (
     <div>
