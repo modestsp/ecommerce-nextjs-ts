@@ -9,7 +9,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const login = 'http://localhost:3000/api/signup';
+    const login = 'http://localhost:3000/api/auth/signup';
     const response = await fetch(login, {
       method: 'POST',
       body: JSON.stringify({
