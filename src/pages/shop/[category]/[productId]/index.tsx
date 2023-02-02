@@ -1,4 +1,6 @@
 import CategoriesSidebar from '@/components/CatergoriesSidebar';
+import ProductCard from '@/components/ProductCard';
+import DisplayReviews from '@/components/Reviews';
 import ShopHeader from '@/components/ShopHeader';
 import { sessionOptions, UserWithSession } from '@/lib/session';
 import { prisma } from '@/utils/db.server';
@@ -16,8 +18,15 @@ interface ProductWithReviews extends ProductType {
   reviews: Review[];
 }
 
-const Product = ({ product }: { product: string }) => {
+const Product = ({
+  product,
+  relatedProducts,
+}: {
+  product: string;
+  relatedProducts: string;
+}) => {
   const currentProduct: ProductWithReviews = JSON.parse(product);
+  const related = JSON.parse(relatedProducts);
   const {
     id,
     name,
@@ -28,10 +37,11 @@ const Product = ({ product }: { product: string }) => {
     stars,
     reviews,
   } = currentProduct;
-  const [size, setSize] = useState<string>('');
+
+  console.log('RELATED', JSON.parse(relatedProducts));
+  // console.log('review', review);
+  // console.log('PRODUCT', JSON.parse(product));
   const [review, setReview] = useState('');
-  console.log('review', review);
-  console.log('PRODUCT', JSON.parse(product));
   const handleSubmit = async () => {
     const createReviewUrl = '/api/review/create';
     const response = await fetch(createReviewUrl, {
@@ -55,7 +65,8 @@ const Product = ({ product }: { product: string }) => {
             STARTS: {stars} Reviews : XX --- Nos lleva hacia la seccion reviews
           </p>
         </div>
-        <div className={styles.productCard}>
+        <ProductCard product={currentProduct} />
+        {/* <div className={styles.productCard}>
           <section className={styles.productContent}>
             <Image
               className={styles.productImage}
@@ -143,9 +154,10 @@ const Product = ({ product }: { product: string }) => {
               esse suscipit quae ab distinctio.
             </p>
           </section>
-        </div>
+        </div> */}
       </section>
-      <section className={styles.reviews}>
+      <DisplayReviews productId={id} reviews={reviews} />
+      {/* <section className={styles.reviews}>
         <p>Leave a Review!</p>
         <TextField
           id="outlined-basic"
@@ -168,8 +180,25 @@ const Product = ({ product }: { product: string }) => {
             );
           })}
         </div>
+      </section> */}
+      <section className={styles.relatedProducts}>
+        RELATED
+        {related.map((product: any) => {
+          return (
+            <Image
+              key={product.id}
+              className={styles.productImage}
+              src={product.url}
+              alt={product.name}
+              width={100}
+              height={200}
+              loader={imageLoader}
+              unoptimized // ver esto  has a "loader" property that does not implement width.
+              // Please implement it or use the "unoptimized" property instead.
+            />
+          );
+        })}
       </section>
-      <section className={styles.relatedProducts}>RELATED</section>
     </div>
   );
 };
@@ -194,6 +223,7 @@ export const getServerSideProps = withIronSessionSsr(
     // console.log('URL**********************', resolvedUrl);
     const user = req.session.user;
     const index = resolvedUrl.lastIndexOf('/');
+
     const product = await prisma.product.findUnique({
       where: {
         id: resolvedUrl.substring(index + 1),
@@ -202,11 +232,21 @@ export const getServerSideProps = withIronSessionSsr(
         reviews: true,
       },
     });
-
+    const relatedProducts = await prisma.product.findMany({
+      take: 4,
+      where: {
+        categoryId: product?.categoryId,
+        id: {
+          not: resolvedUrl.substring(index + 1),
+        },
+      },
+    });
+    console.log('RELATED IN SERVER', relatedProducts);
     return {
       props: {
         user: user ? user : null,
         product: JSON.stringify(product),
+        relatedProducts: JSON.stringify(relatedProducts),
       },
     };
   },
