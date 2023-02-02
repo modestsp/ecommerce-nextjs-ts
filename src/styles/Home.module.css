@@ -8,6 +8,17 @@
 
 .mainContent {
   display: flex;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.viewCategories {
+  text-decoration: none;
+  font-size: 2rem;
+}
+
+.logoCategories {
+  display: flex;
 }
 
 .offers {
