@@ -19,6 +19,7 @@ model User {
   sessions   Session[]
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @default(now())
+  reviews    Review[]
 }
 
 model Session {
@@ -56,8 +57,14 @@ model Product {
 }
 
 model Review {
-  id        String  @id @default(uuid())
-  desc      String
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
+  id          String    @id @default(uuid())
+  description String
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  value       Float     @default(5)
+  createdAt   DateTime  @default(now())
+  modifiedAt  DateTime  @default(now())
+  deletedAt   DateTime?
 }
