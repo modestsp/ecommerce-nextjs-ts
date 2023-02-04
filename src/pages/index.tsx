@@ -1,8 +1,15 @@
-import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
-
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '@/styles/Home.module.css';
+import { prisma } from '../utils/db.server';
+import Hat from '../../public/Hat1.svg';
+import Button from '@mui/material/Button';
+import Link from 'next/link';
+import { useGetUser } from '@/hooks/useGetUser';
 
 export default function Home() {
+  // const { isLoading } = useGetUser();
+  // console.log('RESPONSE', JSON.parse(products));
   return (
     <>
       <Head>
@@ -12,8 +19,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div>INITIAL COMMIT</div>
+        {/* <Image
+          src="https://images.unsplash.com/photo-1620231109648-302d034cb29b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXx3U1FJeWxiT2w1VXx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
+          alt="Hat1"
+          width={400}
+          height={400}
+        /> */}
+        <section className={styles.mainContent}>
+          <p>FEATURED</p>
+          <div className={styles.logoCategories}>
+            <p>LOGO</p>
+            <Link href={'/shop'} className={styles.viewCategories}>
+              View Categories
+            </Link>
+          </div>
+        </section>
+        <section className={styles.offers}>
+          <p>OFFERS</p>
+          <Button variant="contained">Hello BUTTON</Button>
+        </section>
       </main>
     </>
-  )
+  );
 }
+
+// export const getServerSideProps = async () => {
+//   const p = await prisma.product.findMany();
+//   const products = JSON.stringify(p);
+//   // console.log('ACA P', p);
+//   return { props: { products } };
+// };
