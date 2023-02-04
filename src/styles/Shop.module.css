@@ -15,12 +15,18 @@
   align-items: center;
   height: 20%;
   padding: var(--header-pd);
+  font-family: var(--primary-font);
+  background: #121212;
 }
 
 .userData {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+}
+
+.userData p {
+  color: var(--primary-color);
 }
 
 .userData button {

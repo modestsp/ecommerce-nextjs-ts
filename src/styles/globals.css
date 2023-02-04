@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,500;0,900;1,100;1,200&display=swap');
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -79,8 +80,13 @@ h6 {
   --header-pd: 2rem;
   --sidebar-pd: 2rem;
   --main-content-pd: 4rem;
+  --primary-pd: 2rem;
+  --secondary-pd: 4rem;
+  --primary-margin: 4rem;
+  --secondary-margin: 1rem;
   --primary-font: 'Playfair Display', serif;
-  --secondary-font: 'Open Sans', sans-serif;
+  /* --secondary-font: 'Open Sans', sans-serif; */
+  --secondary-font: 'Montserrat', sans-serif;
   --primary-color: rgba(255, 255, 255, 1);
   --secondary-color: rgba(0, 0, 0, 1);
 }
