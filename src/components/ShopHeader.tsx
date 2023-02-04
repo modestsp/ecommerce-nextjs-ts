@@ -1,11 +1,20 @@
-import { sessionOptions } from '@/lib/session';
-import useUser from '@/lib/useUser';
-import { withIronSessionSsr } from 'iron-session/next';
+import { useGetUser } from '@/hooks/useGetUser';
+import { UserWithSession } from '@/lib/session';
+import { useShopStore } from '@/lib/store';
 import Link from 'next/link';
 import Router from 'next/router';
 import styles from '../styles/Shop.module.css';
 
-const ShopHeader = ({ user }: { user: any }) => {
+const ShopHeader = () => {
+  const { isLoading, data: user } = useGetUser();
+  // const user = useShopStore((state) => state.user);
+  // const setCurrentUser = useShopStore((state) => state.setCurrentUser);
+  // if (!user) {
+  //   setCurrentUser(userFromReq);
+  // }
+  // console.log('current', user);
+  if (isLoading) return <div>Loading!</div>;
+
   const handleLogout = async () => {
     const logoutUrl = '/api/auth/logout';
     await fetch(logoutUrl, {
@@ -13,16 +22,18 @@ const ShopHeader = ({ user }: { user: any }) => {
     });
     Router.push('/shop');
   };
-  console.log('USER', user);
+  // console.log('USER', user);
   // const { user } = useUser({});
-  console.log('USER', user);
+  // console.log('USER', user);
   return (
     <header className={styles.header}>
       <Link href={'/'}>LOGO</Link>
       <p>SEARCH BAR</p>
       {user ? (
-        <div>
-          <p>{user.name}</p> <button onClick={handleLogout}>Logout</button>
+        <div className={styles.userData}>
+          <p>{user.name}</p>
+          <p>Cart</p>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <Link href={'/login'}>LOGIN</Link>
