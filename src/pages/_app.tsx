@@ -5,7 +5,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { SWRConfig } from 'swr';
 import fetchJson from '@/lib/fetchJson';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement, pageProps: any) => ReactNode;
@@ -28,6 +28,8 @@ const theme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
@@ -40,7 +42,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       }}
     >
       <ThemeProvider theme={theme}>
-        {getLayout(<Component {...pageProps} />, pageProps)}
+        <QueryClientProvider client={queryClient}>
+          {getLayout(<Component {...pageProps} />, pageProps)}
+        </QueryClientProvider>
       </ThemeProvider>
     </SWRConfig>
   );
