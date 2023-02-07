@@ -33,19 +33,10 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <SWRConfig
-      value={{
-        fetcher: fetchJson,
-        onError: (err) => {
-          console.error(err);
-        },
-      }}
-    >
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          {getLayout(<Component {...pageProps} />, pageProps)}
-        </QueryClientProvider>
+        {getLayout(<Component {...pageProps} />, pageProps)}
       </ThemeProvider>
-    </SWRConfig>
+    </QueryClientProvider>
   );
 }

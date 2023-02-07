@@ -1,32 +1,32 @@
 import fetchJson from '@/lib/fetchJson';
+import { useShopStore } from '@/lib/store';
 import useUser from '@/lib/useUser';
 import { useState } from 'react';
+import Router from 'next/router';
 
 const Login = () => {
   const [username, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-
-  const { mutateUser } = useUser({
-    redirectTo: '/shop',
-    redirectIfFound: true,
-  });
+  const user = useShopStore((state) => state.user);
+  console.log('USER', user);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const login = '/api/auth/login';
     try {
-      mutateUser(
-        await fetchJson(login, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
+      const response = await fetch(login, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username,
+          password,
         }),
-        false
-      );
+      });
+      const currentUser = await response.json();
+      if (currentUser.isLoggedIn) {
+        Router.push('/shop');
+      }
     } catch (e) {
       console.log(e);
     }

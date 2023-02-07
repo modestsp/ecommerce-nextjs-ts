@@ -10,7 +10,7 @@ async function createReviewRoute(req: NextApiRequest, res: NextApiResponse) {
     console.log('REQ BODY', req.body);
     console.log('REQ SESSION', req.session);
 
-    const { productId, description } = await JSON.parse(req.body);
+    const { productId, description, value } = await JSON.parse(req.body);
     console.log('PRODUCTID', productId);
     console.log('DESCRIPTION', description);
     if (req.session.user) {
@@ -20,6 +20,7 @@ async function createReviewRoute(req: NextApiRequest, res: NextApiResponse) {
           userId: id,
           productId,
           description,
+          value,
         },
       });
       return res.status(201).json({ review });

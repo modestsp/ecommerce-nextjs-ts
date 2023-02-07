@@ -1,7 +1,4 @@
-import { prisma } from '@/utils/db.server';
-import { ProductCategory } from '@prisma/client';
 import Link from 'next/link';
-import { useState } from 'react';
 import styles from '../styles/Shop.module.css';
 
 const CategoriesSidebar = () => {
