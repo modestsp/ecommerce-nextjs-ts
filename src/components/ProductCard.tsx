@@ -5,8 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Product } from '@prisma/client';
+import { ProductWithReviews } from '@/pages/shop/[category]/[productId]';
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: ProductWithReviews }) => {
   const { id, name, url, photographerUrl, photographerName, price, stars } =
     product;
   const [size, setSize] = useState<string>('');
@@ -17,8 +18,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           className={styles.productImage}
           src={url}
           alt={name}
-          width={400}
-          height={600}
+          width={800}
+          height={800}
           loader={imageLoader}
           unoptimized // ver esto  has a "loader" property that does not implement width.
           // Please implement it or use the "unoptimized" property instead.
@@ -92,12 +93,14 @@ const ProductCard = ({ product }: { product: Product }) => {
             XXL
           </Button>
         </ButtonGroup>
-        <p className={styles.productDescription}>
-          Description <br />: Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Aperiam maiores in cumque sequi quam expedita nulla.
-          Ipsum velit rerum, hic illo officiis beatae? Quam quidem, esse
-          suscipit quae ab distinctio.
-        </p>
+        <div className={styles.productDescription}>
+          <h4>Description</h4>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam
+          maiores in cumque sequi quam expedita nulla. Ipsum velit rerum, hic
+          illo officiis beatae? Quam quidem, esse suscipit quae ab distinctio.
+        </div>
+        <p className={styles.productPrice}>PRICE</p>
+        <button className={styles.addToCartButton}>ADD TO CART</button>
       </section>
     </div>
   );
