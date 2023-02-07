@@ -7,7 +7,5 @@ export const useGetUser = () => {
     queryKey: ['currentUser'],
     queryFn: userService.getUser,
   });
-  const currentUser = useShopStore((state) => state.setCurrentUser);
-  currentUser(data);
   return { isLoading, data };
 };
