@@ -73,7 +73,7 @@ Product.getLayout = function getLayout(
   return (
     <main className={styles.main}>
       <ShopHeader />
-      <section className={styles.mainContent}>{page}</section>
+      {page}
     </main>
   );
 };
