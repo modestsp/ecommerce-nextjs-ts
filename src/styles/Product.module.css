@@ -15,7 +15,6 @@
 @media only screen and (max-width: 576px) {
   .mainContainer {
     width: 100%;
-    padding: var(--primary-pd);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -304,6 +303,7 @@
   .reviewCard {
     border: 1px solid black;
     margin-top: 1rem;
+    width: 50px;
   }
   .relatedProducts {
     display: flex;
