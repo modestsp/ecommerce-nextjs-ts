@@ -1,3 +1,5 @@
+import Footer from '@/components/Footer';
+import ImageCard from '@/components/ImageCard';
 import ProductCard from '@/components/ProductCard';
 import DisplayReviews from '@/components/Reviews';
 import ShopHeader from '@/components/ShopHeader';
@@ -43,25 +45,26 @@ const Product = () => {
         <ProductCard product={data.product} />
       </section>
       <DisplayReviews productId={id} reviews={reviews} />
-
-      <section className={styles.relatedProducts}>
-        RELATED
-        {relatedProducts.map((product: any) => {
-          return (
-            <Image
-              key={product.id}
-              className={styles.productImage}
-              src={product.url}
-              alt={product.name}
-              width={100}
-              height={200}
-              loader={imageLoader}
-              unoptimized // ver esto  has a "loader" property that does not implement width.
-              // Please implement it or use the "unoptimized" property instead.
-            />
-          );
-        })}
-      </section>
+      <div className={styles.relatedProductsContainer}>
+        <ul className={styles.relatedProducts}>
+          {relatedProducts.map((product: any) => {
+            return (
+              // <ImageCard key={product.id} product={product} />
+              <Image
+                key={product.id}
+                className={styles.relatedProductImage}
+                src={product.url}
+                alt={product.name}
+                width={100}
+                height={200}
+                loader={imageLoader}
+                unoptimized // ver esto  has a "loader" property that does not implement width.
+                // Please implement it or use the "unoptimized" property instead.
+              />
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
@@ -74,6 +77,7 @@ Product.getLayout = function getLayout(
     <main className={styles.main}>
       <ShopHeader />
       {page}
+      <Footer />
     </main>
   );
 };

@@ -6,6 +6,7 @@ import { serialize } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions, UserWithSession } from '@/lib/session';
+import { useShopStore } from '@/lib/store';
 
 const validatePassword = async ({
   username,

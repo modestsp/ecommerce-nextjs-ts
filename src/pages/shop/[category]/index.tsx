@@ -9,18 +9,19 @@ import { sessionOptions } from '@/lib/session';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ShopPageWithLayout } from '..';
 import ImageCard from '@/components/ImageCard';
+import Footer from '@/components/Footer';
 
 const Category: ShopPageWithLayout = ({ products }: { products: any }) => {
   const router = useRouter();
   const currentRoute = router.asPath;
   const productsFromCat = JSON.parse(products);
-
+  console.log('PRODUCTS *********', JSON.parse(products));
   if (!productsFromCat || !products) return <div>Loading!</div>;
 
   return (
     <div className={styles.productsGalleryContainer}>
-      {productsFromCat.map((product: Product) => {
-        return <ImageCard key={product.id} product={product} />;
+      {productsFromCat.map((product: Product, i: number) => {
+        return <ImageCard i={i} key={product.id} product={product} />;
       })}
     </div>
   );
@@ -34,6 +35,7 @@ Category.getLayout = function getLayout(page: ReactElement) {
         <CategoriesSidebar />
         {page}
       </section>
+      <Footer />
     </main>
   );
 };
@@ -45,6 +47,9 @@ export const getServerSideProps = withIronSessionSsr(
         category: {
           name: resolvedUrl.substring(6),
         },
+      },
+      include: {
+        category: true,
       },
     });
 

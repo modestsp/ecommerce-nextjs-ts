@@ -8,8 +8,6 @@ const Login = () => {
   const [username, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const user = useShopStore((state) => state.user);
-  console.log('USER', user);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

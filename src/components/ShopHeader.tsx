@@ -9,13 +9,18 @@ import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState } from 'react';
 import { useGetProducts } from '@/hooks/useGetProducts';
+import CartModal from './CartModal';
+import { AnimatePresence } from 'framer-motion';
 
 const ShopHeader = () => {
   const [search, setSearch] = useState('');
+  const [toggleCart, setToggleCart] = useState<boolean>(false);
+  console.log('TOGGLE', toggleCart);
   const { isLoading, data: user } = useGetUser();
   const setProducts = useShopStore((state) => state.setProducts);
+  const cart = useShopStore((state) => state.cart);
   const router = useRouter();
-  if (isLoading) return <div>Loading!</div>;
+  if (isLoading) return <div className={styles.header}>Loading!</div>;
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
@@ -58,12 +63,25 @@ const ShopHeader = () => {
       {user ? (
         <div className={styles.userData}>
           <p>{user.name}</p>
-          <ShoppingCartIcon style={{ color: 'white' }} />
+          <ShoppingCartIcon
+            onClick={() => setToggleCart(!toggleCart)}
+            style={{ color: 'white' }}
+          />
           <LogoutIcon onClick={handleLogout} style={{ color: 'white' }} />
+          <button className={styles.cartLength}>{cart.length}</button>
         </div>
       ) : (
         <Link href={'/login'}>LOGIN</Link>
       )}
+      <AnimatePresence mode="wait">
+        {toggleCart && (
+          <CartModal
+            key="modal"
+            toggleCart={toggleCart}
+            setToggleCart={setToggleCart}
+          />
+        )}
+      </AnimatePresence>
     </header>
   );
 };

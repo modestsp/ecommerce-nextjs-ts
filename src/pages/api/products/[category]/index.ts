@@ -7,6 +7,8 @@ export default async function handler(
   console.log('URL IN API', req.url);
   const category = req.url?.substring(req.url.lastIndexOf('/') + 1);
   try {
+    const query = req.query;
+    console.log('QUERY', query);
     if (category) {
       const products = await prisma.product.findMany({
         where: {

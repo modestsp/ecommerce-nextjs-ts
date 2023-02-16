@@ -9,6 +9,7 @@ import { Rating } from '@mui/material';
 import { Router, useRouter } from 'next/router';
 import DropMenu from '@/components/DropMenu';
 import ImageCard from '@/components/ImageCard';
+import Footer from '@/components/Footer';
 
 type Props = {
   products: string;
@@ -28,8 +29,8 @@ const Shop: ShopPageWithLayout = () => {
   console.log(products);
   return (
     <div className={styles.productsGalleryContainer}>
-      {products!.map((product: any) => {
-        return <ImageCard key={product.id} product={product} />;
+      {products!.map((product: any, i) => {
+        return <ImageCard i={i} key={product.id} product={product} />;
       })}
     </div>
   );
@@ -44,7 +45,7 @@ Shop.getLayout = function getLayout(page: ReactElement) {
         <DropMenu />
         {page}
       </section>
-      <footer className={styles.footer}>Footer</footer>
+      <Footer />
     </main>
   );
 };

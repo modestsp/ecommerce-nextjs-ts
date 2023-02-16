@@ -7,11 +7,11 @@ export default async function handler(
   const { productId } = req.query;
   const url = req.url;
   const index = url?.lastIndexOf('/');
-  if (index) {
-    const test = url?.substring(index + 1);
-    console.log('TEST', test);
-  }
-  console.log('REQ.QUERY', req.query);
+  // if (index) {
+  //   const test = url?.substring(index + 1);
+  //   console.log('TEST', test);
+  // }
+  // console.log('REQ.QUERY', req.query);
   try {
     if (productId) {
       const product = await prisma.product.findUnique({
@@ -23,7 +23,7 @@ export default async function handler(
         },
       });
       const relatedProducts = await prisma.product.findMany({
-        take: 4,
+        take: 10,
         where: {
           categoryId: product?.categoryId,
           id: {

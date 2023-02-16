@@ -99,7 +99,8 @@ const ProductCard = ({ product }: { product: ProductWithReviews }) => {
           maiores in cumque sequi quam expedita nulla. Ipsum velit rerum, hic
           illo officiis beatae? Quam quidem, esse suscipit quae ab distinctio.
         </div>
-        <p className={styles.productPrice}>PRICE</p>
+        <p>Status: In Stock</p>
+        <p className={styles.productPrice}>Price: {product.price}$</p>
         <button className={styles.addToCartButton}>ADD TO CART</button>
       </section>
     </div>
