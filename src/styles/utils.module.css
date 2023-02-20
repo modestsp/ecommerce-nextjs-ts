@@ -1,0 +1,9 @@
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-color: var(--secondary-bg-color) transparent var(--secondary-bg-color)
+    transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+}

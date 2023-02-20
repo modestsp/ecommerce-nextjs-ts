@@ -4,6 +4,7 @@
     rgba(0, 0, 0, 1) 0%,
     rgba(255, 255, 255, 1) 100%
   ); */
+  background-color: rgb(212, 201, 206);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -45,11 +46,14 @@
 
 @media only screen and (min-width: 993px) and (max-width: 1600px) {
   .main {
+    display: flex;
+    justify-content: center;
     align-items: center;
   }
 
   .mainContent {
     display: flex;
+    justify-content: center;
     position: relative;
   }
 }
@@ -95,6 +99,8 @@
   z-index: 999;
 }
 .headerLogo {
+  text-decoration: none;
+  font-style: italic;
   margin-left: 1rem;
 }
 
@@ -277,7 +283,6 @@
 /* --------------SIDEBAR-------------- */
 
 /* .sidebar {
-
 } */
 
 @media only screen and (max-width: 576px) {
@@ -296,10 +301,11 @@
     position: sticky;
     display: flex;
     flex-direction: column;
-    width: 15%;
+    align-items: flex-end;
+    width: 25%;
+    background-color: var(--primary-color);
     padding: var(--sidebar-pd);
     font-family: var(--primary-font);
-    margin-left: 4rem;
     box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.212);
     min-height: 100vh;
     gap: 0.75rem;
@@ -316,12 +322,10 @@
   .sidebar {
     display: flex;
     position: sticky;
+    align-items: flex-end;
     flex-direction: column;
-    align-items: center;
-    width: 15%;
     padding: var(--sidebar-pd);
     font-family: var(--primary-font);
-    margin-left: 4rem;
     box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.212);
     min-height: 100vh;
     gap: 0.75rem;
@@ -339,10 +343,8 @@
     position: sticky;
     flex-direction: column;
     align-items: center;
-    width: 15%;
     padding: var(--sidebar-pd);
     font-family: var(--primary-font);
-    margin-left: 4rem;
     box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.212);
     min-height: 100vh;
     gap: 0.75rem;
@@ -392,6 +394,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--primary-color);
   box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.41);
   width: 320px;
   height: 460px;
@@ -431,10 +434,10 @@
   align-items: center;
   font-family: var(--secondary-font);
   gap: 0.5rem;
-  background-color: rgba(128, 128, 128, 0.089);
   width: 100%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1rem;
+  margin-left: 0.5rem;
 }
 
 .addToCartButton {
@@ -483,6 +486,10 @@
 }
 
 @media only screen and (min-width: 993px) and (max-width: 1600px) {
+  .loadingSpinner {
+    display: flex;
+    flex-grow: 1;
+  }
   .productsGalleryContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
