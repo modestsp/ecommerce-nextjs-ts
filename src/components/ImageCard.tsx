@@ -5,21 +5,39 @@ import styles from '../styles/Shop.module.css';
 import { useRouter } from 'next/router';
 import { useShopStore } from '@/lib/store';
 import { motion } from 'framer-motion';
-
+import { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 const ImageCard = ({ product, i }: { product: any; i?: number }) => {
   const router = useRouter();
+  const [addedToCart, setAddedToCart] = useState<boolean>(false);
   const currentRoute = router.asPath;
   const cart = useShopStore((state) => state.cart);
   const updateCart = useShopStore((state) => state.updateCart);
-  console.log('PRODUCT', product);
-  // console.log(
-  //   'TEST ROUTE',
-  //   `${currentRoute}/${product.category.name}/${product.id}`
-  // );
-  const handleAddToCart = () => {
+  const increaseProduct = useShopStore((state) => state.increaseProduct);
+  const decreaseProduct = useShopStore((state) => state.decreaseProduct);
+  const currentProduct = useShopStore((state) =>
+    state.cart.find((p) => p.id === product.id)
+  );
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation();
+    setAddedToCart(true);
     updateCart(product);
+    console.log('CART IN ADD TO CARD', cart);
   };
-
+  const handleIncreaseProduct = () => {
+    increaseProduct(product.id);
+    console.log('CART IN INCREASE', cart);
+  };
+  const handleDecreaseProduct = () => {
+    decreaseProduct(product.id);
+    console.log('CANTIDAD', currentProduct?.quantity!);
+    // if (currentProduct?.quantity! <= 0) {
+    //   setAddedToCart(false);
+    // }
+    console.log('CART IN DECREASE', cart);
+    console.log('CURRENT PRODUCT QTY', currentProduct);
+  };
   const staggerAnimProduct = {
     hidden: {
       opacity: 0,
@@ -28,11 +46,9 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
     visible: {
       translateY: 0,
       opacity: 1,
-      transition: {
-        duration: 0.1,
-        delay: i ? i * 0.1 : 0,
-        type: 'ease',
-      },
+      // transition: {
+      //   duration: 0.1,
+      // },
     },
   };
 
@@ -43,15 +59,6 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
       initial="hidden"
       animate="visible"
       variants={staggerAnimProduct}
-      // initial={{
-      //   opacity: 0,
-      //   translateY: -50,
-      // }}
-      // animate={{
-      //   opacity: 1,
-      //   translateY: 0,
-      // }}
-      // transition={{ duration: 0.3, delay: i * 0.2 }}
     >
       <div className={styles.productHeader}>
         <Rating
@@ -78,9 +85,32 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
       />
       <div className={styles.productFooter}>
         <p className={styles.productPrice}>{product.price}$</p>
-        <button onClick={handleAddToCart} className={styles.addToCartButton}>
-          Add to Cart
-        </button>
+        <div>
+          {currentProduct?.quantity ? (
+            <div className={styles.updateProductButtons}>
+              <button
+                onClick={handleDecreaseProduct}
+                className={styles.decreaseButton}
+              >
+                <RemoveIcon />
+              </button>
+              {currentProduct?.quantity!}
+              <button
+                onClick={handleIncreaseProduct}
+                className={styles.increaseButton}
+              >
+                <AddIcon />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className={styles.addToCartButton}
+            >
+              Add To Cart
+            </button>
+          )}
+        </div>
       </div>
     </motion.li>
   );

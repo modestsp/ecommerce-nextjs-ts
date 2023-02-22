@@ -1,103 +1,133 @@
-import { prisma } from '@/utils/db.server';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { object, string } from 'zod';
+// import { Link, useNavigate } from 'react-router-dom';
+import { CreateUserInput } from '../../utils/types';
+import userService from '../../services/server/user';
+import { zodResolver } from '@hookform/resolvers/zod';
+import styles from '../../styles/SignUp.module.css';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Loader } from '../../components/Loader';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useGetUser } from '@/hooks/useGetUser';
+// Check for available username
+// If user created redirect
+// Else tell the user the error
 
+export const createUserSchema = object({
+  name: string({
+    required_error: 'Name is required',
+  }).min(3, 'Name should be at least 3 characters'),
+  username: string({
+    required_error: 'Username is required',
+  }).min(3, 'Username should be at least 3 characters'),
+  password: string({
+    required_error: 'Password is required',
+  }).min(6, 'Password should be at least 6 characters'),
+  passwordConfirm: string({
+    required_error: 'Password confirm is required',
+  }),
+  email: string().min(1, 'Email cannot be empty').email('Not a valid email'),
+}).refine((data) => data.password === data.passwordConfirm, {
+  message: 'Passwords do not match',
+  path: ['passwordConfirm'],
+});
+
+// Revisar si funciona el mensaje de error que viene desde el backend
 const SignUp = () => {
-  const [name, setName] = useState('');
-  const [username, setUser] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const login = 'http://localhost:3000/api/auth/signup';
-    const response = await fetch(login, {
-      method: 'POST',
-      body: JSON.stringify({
-        name,
-        username,
-        password,
-        email,
-      }),
-    });
-    const final = await response.json();
-    console.log('finaliziam', final);
+  const { isLoading, data: user } = useGetUser();
+  const router = useRouter();
+  const [errorMesage, setErrorMessage] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateUserInput>({
+    mode: 'all',
+    resolver: zodResolver(createUserSchema),
+  });
+  const onSubmit: SubmitHandler<CreateUserInput> = async (input) => {
+    try {
+      // Aca puedo usar react query, y usar on succes para navigar
+      const { name, username, password, email } = input;
+      await userService.signUp({ name, username, password, email });
+      const currentUser = await userService.login({ username, password });
+      if (currentUser.id) return router.push('/shop');
+    } catch (e: any) {
+      setErrorMessage(e.response?.data?.error);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
   };
+  if (isLoading) return <div>Loading!</div>;
+  if (user.name) {
+    router.push('/shop');
+  }
   return (
-    <div>
-      <p>HELO SIGN</p>
-      <form action="" onSubmit={handleSubmit}>
+    <div className={styles.signupContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <h1 className={styles.title}>Sign Up</h1>
+        <label htmlFor="name">Name</label>
         <input
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setUser(e.target.value)}
+          id="name"
+          placeholder="name"
+          {...register('name', { required: true })}
         />
+        <p className={styles.formError}>{errors.name?.message}</p>
+        <label htmlFor="username">Username</label>
         <input
-          type="password"
-          name="password"
+          id="username"
+          placeholder="username"
+          {...register('username', { required: true })}
+        />
+        <p className={styles.formError}>{errors.username?.message}</p>
+        <label htmlFor="password">Password</label>
+        <input
+          type={'password'}
           id="password"
           placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password', { required: true })}
         />
+        <p className={styles.formError}>{errors.password?.message}</p>
+        <label htmlFor="passwordConfirm">Confirm password</label>
         <input
-          type="text"
-          placeholder="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id="passwordConfirm"
+          placeholder="Confirm password"
+          {...register('passwordConfirm', { required: true })}
         />
+        <p className={styles.formError}>{errors.passwordConfirm?.message}</p>
+        <label htmlFor="email">Email</label>
         <input
-          type="email"
+          id="email"
           placeholder="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email', { required: true })}
         />
-        <button>submit</button>
+        <p className={styles.formError}>{errors.email?.message}</p>
+        {errorMesage ? (
+          <p className={styles.errorMessage}>{errorMesage}</p>
+        ) : (
+          <p className={styles.disableMessage}>errorMesage</p>
+        )}
+        <motion.button
+          type="submit"
+          className={styles.createAccountButton}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {isSubmitting ? <Loader /> : 'Create Account'}
+        </motion.button>
+        <div className={styles.login}>
+          <span> Already have an account? </span>
+          <Link href={'/login'} className={styles.login}>
+            Log In
+          </Link>
+        </div>
       </form>
     </div>
   );
 };
 
-// export const getServerSideProps = async ({
-//   req,
-//   res,
-// }: {
-//   req: NextApiRequest;
-//   res: NextApiResponse;
-// }) => {
-
-//   const products = await prisma.product.findMany();
-//   return {
-//     props: {
-//       products: JSON.stringify(products),
-//     },
-//   };
-// };
-
 export default SignUp;
-
-// const validatePassword = async ({
-//   username,
-//   password,
-// }: {
-//   username: string;
-//   password: string;
-// }) => {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       username,
-//     },
-//   });
-
-//   if (!user) {
-//     return false;
-//   }
-//   // Bcrypt compare
-//   const passwordCorrect = await bcrypt.compare(password, user.password);
-
-//   if (!passwordCorrect) {
-//     return false;
-//   }
-
-//   return user;
-// };

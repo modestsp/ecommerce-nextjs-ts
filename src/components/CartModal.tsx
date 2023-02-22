@@ -1,6 +1,7 @@
 import styles from '../styles/Shop.module.css';
 import { AnimatePresence, motion } from 'framer-motion';
 import { dropIn, fromRightToLeft } from '@/utils/animations';
+import { useShopStore } from '@/lib/store';
 
 const CartModal = ({
   toggleCart,
@@ -9,7 +10,8 @@ const CartModal = ({
   toggleCart: boolean;
   setToggleCart: any;
 }) => {
-  console.log('TOGGLE', toggleCart);
+  const cart = useShopStore((state) => state.cart);
+
   return (
     <motion.div
       initial="hidden"
@@ -25,6 +27,13 @@ const CartModal = ({
         X
       </button>
       <p>CART</p>
+      {cart.length > 0 && (
+        <ul>
+          {cart.map((product) => {
+            return <li key={product.id}>{product.price}</li>;
+          })}
+        </ul>
+      )}
     </motion.div>
   );
 };

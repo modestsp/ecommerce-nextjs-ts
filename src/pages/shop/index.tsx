@@ -24,9 +24,8 @@ const Shop: ShopPageWithLayout = () => {
   const { isLoading: loadingProducts, data: products } = useGetProducts();
 
   if (loadingProducts) {
-    return <div>Loading!</div>;
+    return <div className={styles.loadingSpinner}>Loading!</div>;
   }
-  console.log(products);
   return (
     <div className={styles.productsGalleryContainer}>
       {products!.map((product: any, i) => {

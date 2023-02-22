@@ -1,5 +1,5 @@
 .main {
-  background-color: rgb(212, 201, 206);
+  background-color: var(--tertiary-color);
 
   display: flex;
   flex-direction: column;
@@ -166,7 +166,7 @@
   .addToCartButton {
     font-family: var(--primary-font);
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: #fff;
     height: 3rem;
     margin-top: 0.5em;
     cursor: pointer;
@@ -203,7 +203,7 @@
   .addToCartButton {
     font-family: var(--primary-font);
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: #fff;
     height: 3rem;
     margin-top: 0.5em;
     cursor: pointer;
@@ -244,7 +244,7 @@
   .addToCartButton {
     font-family: var(--primary-font);
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: #fff;
     height: 3rem;
     margin-top: 0.5em;
     cursor: pointer;
@@ -328,7 +328,7 @@
 .addToCartButton {
   font-family: var(--primary-font);
   background-color: var(--secondary-color);
-  color: var(--primary-color);
+  color: #fff;
   height: 3rem;
 }
 

@@ -30,6 +30,9 @@ export default async function handler(
             not: product?.id,
           },
         },
+        include: {
+          category: true,
+        },
       });
       return res.status(200).json({ product, relatedProducts });
     }

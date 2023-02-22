@@ -1,64 +1,95 @@
-import fetchJson from '@/lib/fetchJson';
-import { useShopStore } from '@/lib/store';
-import useUser from '@/lib/useUser';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { object, string } from 'zod';
+import userService from '@/services/server/user';
+import { CreateSessionInput } from '@/utils/types';
+import styles from '../../styles/Login.module.css';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import Router from 'next/router';
+import { motion } from 'framer-motion';
+import { Loader } from '@/components/Loader';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useGetUser } from '@/hooks/useGetUser';
 
-const Login = () => {
-  const [username, setUser] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+export const createSessionSchema = object({
+  username: string().min(1, 'Username cannot be empty'),
+  password: string().min(1, 'Password cannot be empty'),
+});
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const login = '/api/auth/login';
+// REVISAR EL ERROR QUE VUELVE DESDE EL BACKEND PARA UN CORRECTO MENSAJE
+
+export default function LogInForm() {
+  const { isLoading, data: user } = useGetUser();
+  const router = useRouter();
+  const [errorMesage, setErrorMessage] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateSessionInput>({
+    resolver: zodResolver(createSessionSchema),
+  });
+  if (isLoading) return <div>Loading!</div>;
+  if (user.name) {
+    router.push('/shop');
+  }
+  const onSubmit: SubmitHandler<CreateSessionInput> = async (data) => {
     try {
-      const response = await fetch(login, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-      const currentUser = await response.json();
-      if (currentUser.isLoggedIn) {
-        Router.push('/shop');
-      }
-    } catch (e) {
-      console.log(e);
+      const { username, password } = data;
+      await userService.login({ username, password });
+      router.push('/shop');
+    } catch (e: any) {
+      setErrorMessage(e.response?.data?.error);
+      // REVISAR EL ERROR QUE VUELVE DESDE EL BACKEND PARA UN CORRECTO MENSAJE
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
     }
-    // const response = await fetch(login, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     username,
-    //     password,
-    //   }),
-    // });
-    // const final = await response.json();
-    // console.log('LOGGED', final);
   };
   return (
-    <div>
-      <p>HELO LOGIN</p>
-      <form action="" onSubmit={handleSubmit}>
+    <div className={styles.loginContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <h1 className={styles.title}>Login</h1>
+        <label htmlFor="username">Username</label>
         <input
-          type="text"
+          id="username"
           placeholder="username"
-          value={username}
-          onChange={(e) => setUser(e.target.value)}
+          {...register('username', { required: true })}
         />
+        {errors.username && (
+          <span className={styles.errorMessage}>{errors.username.message}</span>
+        )}
+        <label htmlFor="password">Password</label>
         <input
-          type="password"
-          name="password"
+          type={'password'}
           id="password"
           placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password', { required: true })}
         />
-        <button>submit</button>
+        {errors.password?.message && (
+          <span className={styles.errorMessage}>{errors.password.message}</span>
+        )}
+        {errorMesage ? (
+          <p className={styles.errorMessage}>{errorMesage}</p>
+        ) : (
+          <p className={styles.disableMessage}>errorMesage</p>
+        )}
+        <motion.button
+          type="submit"
+          className={styles.loginButton}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {isSubmitting ? <Loader /> : 'Log In'}
+        </motion.button>
+        <div className={styles.createAccount}>
+          <span>Don't have an account?</span>
+          <Link href={'/signup'} className={styles.createAccount}>
+            Create one
+          </Link>
+        </div>
       </form>
     </div>
   );
-};
-export default Login;
+}

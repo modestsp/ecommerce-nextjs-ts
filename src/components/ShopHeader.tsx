@@ -11,11 +11,11 @@ import { useState } from 'react';
 import { useGetProducts } from '@/hooks/useGetProducts';
 import CartModal from './CartModal';
 import { AnimatePresence } from 'framer-motion';
-
+import Image from 'next/image';
+import imageLoader from '@/utils/imageLoader';
 const ShopHeader = () => {
   const [search, setSearch] = useState('');
   const [toggleCart, setToggleCart] = useState<boolean>(false);
-  console.log('TOGGLE', toggleCart);
   const { isLoading, data: user } = useGetUser();
   const setProducts = useShopStore((state) => state.setProducts);
   const cart = useShopStore((state) => state.cart);
@@ -46,7 +46,9 @@ const ShopHeader = () => {
   return (
     <header className={styles.header}>
       <Link href={'/'} className={styles.headerLogo}>
-        LOGO
+        <h2 style={{ fontFamily: 'var(--tertiary-font)', color: 'white' }}>
+          __seb
+        </h2>
       </Link>
       <form action="" onSubmit={handleSearch} className={styles.searchForm}>
         <input

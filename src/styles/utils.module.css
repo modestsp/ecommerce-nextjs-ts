@@ -2,8 +2,19 @@
   width: 20px;
   height: 20px;
   border: 2px solid;
-  border-color: var(--secondary-bg-color) transparent var(--secondary-bg-color)
-    transparent;
+  border-color: #fff transparent #fff transparent;
   border-radius: 50%;
   animation: spin-anim 1.2s linear infinite;
+}
+
+/* --main-bg-color: #dda15e;
+--secondary-bg-color: #fefae0; */
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

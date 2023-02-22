@@ -1,4 +1,5 @@
 import { useShopStore } from '@/lib/store';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from '../styles/Shop.module.css';
@@ -6,7 +7,34 @@ import styles from '../styles/Shop.module.css';
 const textDeco = {
   textDecoration: 'underline',
   textDecorationColor: 'goldenrod',
-  textUnderlineOffset: '8px',
+  textUnderlineOffset: '10px',
+};
+
+export const fromBottomToTop = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    // transition: {
+    //   duration: 1,
+    //   type: 'ease',
+    // },
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    // transition: {
+    //   duration: 0.4,
+    //   type: 'ease',
+    // },
+  },
+  exit: {
+    y: 20,
+    opacity: 0,
+    // transition: {
+    //   duration: 0.4,
+    //   type: 'ease',
+    // },
+  },
 };
 
 const CategoriesSidebar = () => {
@@ -14,7 +42,23 @@ const CategoriesSidebar = () => {
   const setSelectedCat = useShopStore((state) => state.setSelectedCat);
 
   return (
-    <aside className={styles.sidebar}>
+    <motion.aside
+      className={styles.sidebar}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      variants={fromBottomToTop}
+    >
+      <h3
+        style={{
+          alignSelf: 'flex-start',
+          textDecoration: 'underline',
+          textDecorationColor: 'grey',
+          textUnderlineOffset: '8px',
+        }}
+      >
+        Categories
+      </h3>
       <Link
         onClick={() => setSelectedCat('Men')}
         className={styles.category}
@@ -47,7 +91,7 @@ const CategoriesSidebar = () => {
       >
         Jewelry
       </Link>
-    </aside>
+    </motion.aside>
   );
 };
 

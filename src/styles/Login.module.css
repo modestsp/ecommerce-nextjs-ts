@@ -1,24 +1,26 @@
 .loginContainer {
+  padding-top: 10rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
+  min-height: 100vh;
+  background-color: var(--primary-color);
 }
 
 .title {
-  margin-top: 10rem;
+  display: flex;
   align-self: flex-start;
-  justify-self: flex-start;
-  font-family: var(--secondary-title-font);
-  font-weight: 300;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  letter-spacing: 2px;
+  font-family: var(--primary-font);
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-left: 0.5rem;
 }
 
 .errorMessage {
   margin-top: 1rem;
   color: red;
-  font-family: var(--main-text-font);
+  font-family: var(--primary-font);
+  font-size: 1rem;
 }
 
 .disableMessage {
@@ -33,24 +35,24 @@
   align-items: center;
   width: 300px;
   box-shadow: 0 0 5px #333;
-  border-radius: 0.5rem;
-  background: var(--secondary-bg-color);
+  background: var(--tertiary-color);
   margin-top: 1rem;
+  padding: 0.25rem;
 }
 
 .form input {
   border: none;
-  border-radius: 5px;
-  height: 20px;
-  padding: var(--input-pd);
-  font-family: var(--main-text-font);
+  padding: 0.25rem;
+  font-family: var(--primary-font);
   font-weight: 500;
   font-size: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.233);
+  border: 1px solid rgba(0, 0, 0, 0.507);
+  transition: all 0.2s ease-in-out;
 }
 
 .form input:hover {
-  box-shadow: 1px 1px 2px 0px rgba(9, 57, 110, 0.75);
+  box-shadow: 0 0 3px #333;
+  transition: all 0.2s ease-in-out;
 }
 
 .form input:focus {
@@ -59,11 +61,10 @@
 }
 
 .form label {
-  font-family: var(--main-text-font);
+  font-family: var(--primary-font);
   margin-bottom: 0.5rem;
   margin-top: 1rem;
   font-size: 20px;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .loginButton {
@@ -71,19 +72,23 @@
   margin-top: 1.5rem;
   margin-bottom: 2rem;
   padding: 0.5rem;
-  font-family: var(--main-text-font);
-  font-size: 1.2rem;
-  color: white;
-  background-color: #f4a261;
+  font-family: var(--primary-font);
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  font-weight: 500;
+  background-color: var(--primary-color);
   border: 1px solid rgba(0, 0, 0, 0.301);
   justify-content: center;
   align-items: center;
   width: 120px;
+  height: 50px;
 }
 
 .createAccount {
-  font-family: var(--main-text-font);
+  display: flex;
+  font-family: var(--primary-font);
   font-size: 18px;
   font-style: italic;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  gap: 0.3rem;
 }

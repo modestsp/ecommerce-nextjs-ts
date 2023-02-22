@@ -6,7 +6,7 @@ import { SWRConfig } from 'swr';
 import fetchJson from '@/lib/fetchJson';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { QueryClientProvider, QueryClient } from 'react-query';
-
+import { ToastContainer } from 'react-toastify';
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement, pageProps: any) => ReactNode;
 };
