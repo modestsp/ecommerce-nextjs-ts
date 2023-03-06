@@ -13,6 +13,7 @@ import CartModal from './CartModal';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import imageLoader from '@/utils/imageLoader';
+
 const ShopHeader = () => {
   const [search, setSearch] = useState('');
   const [toggleCart, setToggleCart] = useState<boolean>(false);
@@ -47,7 +48,7 @@ const ShopHeader = () => {
     <header className={styles.header}>
       <Link href={'/'} className={styles.headerLogo}>
         <h2 style={{ fontFamily: 'var(--tertiary-font)', color: 'white' }}>
-          __seb
+          Ecommerce
         </h2>
       </Link>
       <form action="" onSubmit={handleSearch} className={styles.searchForm}>
