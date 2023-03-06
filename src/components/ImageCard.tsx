@@ -16,21 +16,27 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
   const updateCart = useShopStore((state) => state.updateCart);
   const increaseProduct = useShopStore((state) => state.increaseProduct);
   const decreaseProduct = useShopStore((state) => state.decreaseProduct);
+  const updatePrice = useShopStore((state) => state.setTotalPrice);
+  // const totalPrice = useShopStore(state => state.totalPrice)
   const currentProduct = useShopStore((state) =>
     state.cart.find((p) => p.id === product.id)
   );
+
   const handleAddToCart = (e: any) => {
     e.stopPropagation();
     setAddedToCart(true);
     updateCart(product);
+    updatePrice(product.price, 'add');
     console.log('CART IN ADD TO CARD', cart);
   };
   const handleIncreaseProduct = () => {
     increaseProduct(product.id);
+    updatePrice(product.price, 'add');
     console.log('CART IN INCREASE', cart);
   };
   const handleDecreaseProduct = () => {
     decreaseProduct(product.id);
+    updatePrice(product.price, 'substract');
     console.log('CANTIDAD', currentProduct?.quantity!);
     // if (currentProduct?.quantity! <= 0) {
     //   setAddedToCart(false);
