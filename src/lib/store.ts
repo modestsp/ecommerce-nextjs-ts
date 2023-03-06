@@ -16,6 +16,8 @@ interface ShopState {
   decreaseProduct: (productId: string) => void;
   currentSingleProduct: any;
   setCurrentSingleProduct: (product: any) => void;
+  totalPrice: number;
+  setTotalPrice: (price: number, op: string) => void;
 }
 
 const increaseQuantity = (cart: CartProduct[], productId: string) => {
@@ -44,6 +46,13 @@ const decreaseQuantity = (cart: CartProduct[], productId: string) => {
   }
 };
 
+const updatePrice = (price: any, op: string, currentPrice: any) => {
+  const updatedPrice =
+    op === 'add' ? price + currentPrice : currentPrice - price;
+  if (updatedPrice < 0) return 0;
+  return updatedPrice;
+};
+
 export const useShopStore = create<ShopState>()((set) => ({
   products: null,
   setProducts: (products) => set((state) => ({ products })),
@@ -63,4 +72,9 @@ export const useShopStore = create<ShopState>()((set) => ({
   currentSingleProduct: null,
   setCurrentSingleProduct: (product) =>
     set((state) => ({ currentSingleProduct: product })),
+  totalPrice: 0,
+  setTotalPrice: (price: number, op: string) =>
+    set((state) => ({
+      totalPrice: updatePrice(price, op, state.totalPrice),
+    })),
 }));
