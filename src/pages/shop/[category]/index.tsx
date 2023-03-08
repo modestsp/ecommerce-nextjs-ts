@@ -10,6 +10,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ShopPageWithLayout } from '..';
 import ImageCard from '@/components/ImageCard';
 import Footer from '@/components/Footer';
+import DropMenu from '@/components/DropMenu';
 
 const Category: ShopPageWithLayout = ({ products }: { products: any }) => {
   const router = useRouter();
@@ -33,6 +34,7 @@ Category.getLayout = function getLayout(page: ReactElement) {
       <ShopHeader />
       <section className={styles.mainContent}>
         <CategoriesSidebar />
+        <DropMenu />
         {page}
       </section>
       <Footer />
