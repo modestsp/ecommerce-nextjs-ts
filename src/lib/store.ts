@@ -56,7 +56,7 @@ const updatePrice = (price: any, op: string, currentPrice: any) => {
 export const useShopStore = create<ShopState>()((set) => ({
   products: null,
   setProducts: (products) => set((state) => ({ products })),
-  selectedCat: '',
+  selectedCat: 'All products',
   setSelectedCat: (category) => set((state) => ({ selectedCat: category })),
   cart: [],
   updateCart: (product: Product) =>
