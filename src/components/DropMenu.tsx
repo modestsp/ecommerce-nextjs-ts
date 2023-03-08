@@ -4,14 +4,28 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import styles from '../styles/Shop.module.css';
-export default function FadeMenu() {
+import { useRouter } from 'next/router';
+import { useShopStore } from '@/lib/store';
+
+function DropMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const selectedCat = useShopStore((state) => state.selectedCat);
+  const setSelectedCat = useShopStore((state) => state.setSelectedCat);
+  console.log('selected cat', selectedCat);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (category: string) => {
     setAnchorEl(null);
+    setSelectedCat(`${category}`);
+    console.log('selected cat en handle', selectedCat);
+    if (category === 'All products') {
+      router.push('/shop');
+    } else {
+      router.push(`/shop/${category}`);
+    }
   };
 
   return (
@@ -23,7 +37,7 @@ export default function FadeMenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Dashboard
+        {selectedCat}
       </Button>
       <Menu
         id="fade-menu"
@@ -35,10 +49,16 @@ export default function FadeMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={() => handleClose('men')}>Men</MenuItem>
+        <MenuItem onClick={() => handleClose('women')}>Women</MenuItem>
+        <MenuItem onClick={() => handleClose('hats')}>Hats</MenuItem>
+        <MenuItem onClick={() => handleClose('jewelry')}>Jewelry</MenuItem>
+        <MenuItem onClick={() => handleClose('All products')}>
+          All Products
+        </MenuItem>
       </Menu>
     </div>
   );
 }
+
+export default DropMenu;
