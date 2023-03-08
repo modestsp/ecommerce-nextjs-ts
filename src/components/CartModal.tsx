@@ -4,6 +4,8 @@ import { dropIn, fromRightToLeft } from '@/utils/animations';
 import { useShopStore } from '@/lib/store';
 import Image from 'next/image';
 import imageLoader from '@/utils/imageLoader';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Rating } from '@mui/material';
 
 export const variants = {
   hidden: {
@@ -53,7 +55,7 @@ const CartModal = ({
       >
         X
       </button>
-      <p>CART</p>
+      <h3 style={{ borderBottom: '1px solid black' }}>CART</h3>
       {cart.length > 0 && (
         <ul className={styles.cartProducts}>
           {cart.map((product) => {
@@ -67,21 +69,40 @@ const CartModal = ({
                   loader={imageLoader}
                 />
                 <div className={styles.cartProductDetails}>
-                  <p>{product.name}</p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <h3>{product.name} </h3>
+                    <Rating
+                      name="read-only"
+                      value={product.stars}
+                      readOnly
+                      size="small"
+                      className={styles.productRating}
+                    />
+                  </div>
                   <p>Qty:{cart.find((p) => p.id === product.id)?.quantity}</p>
-                  <span>
-                    Price:{' '}
-                    {product.price! *
-                      cart.find((p) => p.id === product.id)?.quantity!}
-                    $
-                  </span>
+                  <div className={styles.productPriceCart}>
+                    <span>
+                      Price:{' '}
+                      {product.price! *
+                        cart.find((p) => p.id === product.id)?.quantity!}
+                      $
+                    </span>
+                    <DeleteIcon />
+                  </div>
                 </div>
               </li>
             );
           })}
         </ul>
       )}
-      <p>Total: {totalPrice}$</p>
+      <h3>Total: {totalPrice}$</h3>
+      <button className={styles.checkoutButton}>Checkout</button>
     </motion.div>
   );
 };
