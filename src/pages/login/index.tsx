@@ -30,8 +30,8 @@ export default function LogInForm() {
   } = useForm<CreateSessionInput>({
     resolver: zodResolver(createSessionSchema),
   });
-  if (isLoading) return <div>Loading!</div>;
-  if (user.name) {
+  // if (isLoading) return <div>Loading!</div>;
+  if (user?.name) {
     router.push('/shop');
   }
   const onSubmit: SubmitHandler<CreateSessionInput> = async (data) => {
@@ -84,7 +84,7 @@ export default function LogInForm() {
           {isSubmitting ? <Loader /> : 'Log In'}
         </motion.button>
         <div className={styles.createAccount}>
-          <span>Don't have an account?</span>
+          <span>{`Don't have an account?`}</span>
           <Link href={'/signup'} className={styles.createAccount}>
             Create one
           </Link>
