@@ -88,10 +88,9 @@ const CartModal = ({
                   <p>Qty:{cart.find((p) => p.id === product.id)?.quantity}</p>
                   <div className={styles.productPriceCart}>
                     <span>
-                      Price:{' '}
+                      Price: $
                       {product.price! *
                         cart.find((p) => p.id === product.id)?.quantity!}
-                      $
                     </span>
                     <DeleteIcon />
                   </div>
@@ -101,7 +100,7 @@ const CartModal = ({
           })}
         </ul>
       )}
-      <h3>Total: {totalPrice}$</h3>
+      <p style={{ fontSize: '1.25rem' }}>Total: ${totalPrice}</p>
       <button className={styles.checkoutButton}>Checkout</button>
     </motion.div>
   );
