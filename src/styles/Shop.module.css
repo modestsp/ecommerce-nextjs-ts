@@ -15,6 +15,59 @@
   position: relative;
 }
 
+.loadingContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin-top: 10;
+}
+.loadingSpinner:after {
+  content: ' ';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: spinner 1.2s linear infinite;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --main-bg-color: #dda15e;
+--secondary-bg-color: #fefae0; */
+
+@keyframes spin-anim {
+  0% {
+    /* height: 2px;
+    width: 0%;
+    background: goldenrod;
+    display: block;
+    transition: 0.25s ease-in-out; */
+    transform: rotate(0deg);
+  }
+  100% {
+    /* height: 40px;
+    width: 75%;
+    background: goldenrod;
+    display: block; */
+    transform: rotate(360deg);
+  }
+}
+
 @media only screen and (max-width: 576px) {
   .main {
     display: flex;
@@ -124,6 +177,20 @@
   top: -20px;
   font-size: 15px;
 }
+
+.cartLength2 {
+  position: absolute;
+  border: none;
+  border-radius: 50%;
+  background-color: #12121200;
+  color: red;
+  font-family: var(--secondary-font);
+  font-weight: 900;
+  left: 8px;
+  top: -20px;
+  font-size: 15px;
+}
+
 /* 
 .cartModal {
   background-color: aqua;
@@ -190,6 +257,7 @@
   border-radius: 0.25rem;
   width: 120px;
   height: 50px;
+  border: none;
 }
 
 .closeButton {
@@ -419,7 +487,6 @@
     align-items: flex-end;
     flex-direction: column;
     padding: var(--sidebar-pd);
-    background-color: var(--primary-color);
     font-family: var(--primary-font);
     box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.212);
     min-height: 100vh;
@@ -465,6 +532,7 @@
     gap: 0.75rem;
     top: 100px;
     height: 100%;
+    min-width: 20%;
   }
   .categoriesMenu {
     display: none;
@@ -598,6 +666,7 @@
   border-radius: 0.25rem;
   width: 120px;
   height: 50px;
+  border: none;
 }
 
 .addToCartButton:hover {
@@ -623,8 +692,10 @@
 
 @media only screen and (min-width: 577px) and (max-width: 992px) {
   .productsGalleryContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
     flex-grow: 1;
     padding: 1rem;

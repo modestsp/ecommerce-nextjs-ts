@@ -330,6 +330,7 @@
   background-color: var(--secondary-color);
   color: #fff;
   height: 3rem;
+  border: none;
 }
 
 /* REVIEWS AND RELATED SECTION */
@@ -507,10 +508,10 @@
     transition: all 0.2s ease-in-out;
   }
 
-  /* .relatedProductImage {
+  .relatedProductImage {
     width: 250px;
     height: 280px;
-  } */
+  }
 }
 
 @media only screen and (min-width: 993px) and (max-width: 1600px) {
