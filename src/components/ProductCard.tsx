@@ -118,7 +118,7 @@ const ProductCard = ({ product }: { product: ProductWithReviews }) => {
           illo officiis beatae? Quam quidem, esse suscipit quae ab distinctio.
         </div>
         <p className={styles.productStock}>Status: In Stock</p>
-        <p className={styles.productPrice}>Price: {product.price}$</p>
+        <p className={styles.productPrice}>Price: ${product.price}</p>
         <button className={styles.addToCartButton}>ADD TO CART</button>
       </section>
     </div>
