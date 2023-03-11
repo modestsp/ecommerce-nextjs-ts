@@ -119,7 +119,7 @@ const Product = ({
                   src={product.url}
                   alt={product.name}
                   width={250}
-                  height={300}
+                  height={280}
                   loader={imageLoader}
                   unoptimized // ver esto  has a "loader" property that does not implement width.
                   // Please implement it or use the "unoptimized" property instead.
