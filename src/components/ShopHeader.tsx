@@ -21,7 +21,7 @@ const ShopHeader = () => {
   const setProducts = useShopStore((state) => state.setProducts);
   const cart = useShopStore((state) => state.cart);
   const router = useRouter();
-  if (isLoading) return <div className={styles.header}>Loading!</div>;
+  // if (isLoading) return <div className={styles.header}>Loading!</div>;
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
@@ -41,7 +41,8 @@ const ShopHeader = () => {
     await fetch(logoutUrl, {
       method: 'POST',
     });
-    Router.push('/shop');
+    window.location.reload();
+    // router.push('/shop');
   };
 
   return (
@@ -68,13 +69,28 @@ const ShopHeader = () => {
           <p>{user.name}</p>
           <ShoppingCartIcon
             onClick={() => setToggleCart(!toggleCart)}
-            style={{ color: 'white' }}
+            style={{ color: 'white', cursor: 'pointer' }}
           />
-          <LogoutIcon onClick={handleLogout} style={{ color: 'white' }} />
+          <LogoutIcon
+            onClick={handleLogout}
+            style={{ color: 'white', cursor: 'pointer' }}
+          />
           <button className={styles.cartLength}>{cart.length}</button>
         </div>
       ) : (
-        <Link href={'/login'}>LOGIN</Link>
+        <div className={styles.userData}>
+          <ShoppingCartIcon
+            onClick={() => setToggleCart(!toggleCart)}
+            style={{ color: 'white', cursor: 'pointer' }}
+          />
+          <button className={styles.cartLength2}>{cart.length}</button>
+          <Link
+            href={'/login'}
+            style={{ textDecoration: 'none', color: 'white' }}
+          >
+            LOGIN
+          </Link>
+        </div>
       )}
       <AnimatePresence mode="wait">
         {toggleCart && (
