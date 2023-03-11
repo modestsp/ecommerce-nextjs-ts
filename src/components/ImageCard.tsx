@@ -90,7 +90,7 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
         // Please implement it or use the "unoptimized" property instead.
       />
       <div className={styles.productFooter}>
-        <p className={styles.productPrice}>{product.price}$</p>
+        <p className={styles.productPrice}>${product.price}</p>
         <div>
           {currentProduct?.quantity ? (
             <div className={styles.updateProductButtons}>
