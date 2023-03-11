@@ -24,7 +24,11 @@ const Shop: ShopPageWithLayout = () => {
   const { isLoading: loadingProducts, data: products } = useGetProducts();
 
   if (loadingProducts) {
-    return <div className={styles.loadingSpinner}>Loading!</div>;
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>;
+      </div>
+    );
   }
   return (
     <div className={styles.productsGalleryContainer}>
