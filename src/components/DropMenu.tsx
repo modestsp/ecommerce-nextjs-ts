@@ -13,17 +13,24 @@ function DropMenu() {
   const router = useRouter();
   const selectedCat = useShopStore((state) => state.selectedCat);
   const setSelectedCat = useShopStore((state) => state.setSelectedCat);
-  console.log('selected cat', selectedCat);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = (category: string) => {
     setAnchorEl(null);
-    setSelectedCat(`${category}`);
-    console.log('selected cat en handle', selectedCat);
-    if (category === 'All products') {
+    const currentCat = router.asPath.substring(
+      router.asPath.lastIndexOf('/') + 1
+    );
+    if (typeof category !== 'string') {
+      console.log('ENTRE');
+      setSelectedCat(currentCat === 'shop' ? 'All products' : currentCat);
+    } else if (category === 'All products') {
+      setSelectedCat(`${category}`);
       router.push('/shop');
     } else {
+      setSelectedCat(`${category}`);
       router.push(`/shop/${category}`);
     }
   };
