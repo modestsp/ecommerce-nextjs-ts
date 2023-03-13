@@ -49,16 +49,18 @@ const CategoriesSidebar = () => {
       exit="exit"
       variants={fromBottomToTop}
     >
-      <h3
+      <p
         style={{
           alignSelf: 'flex-start',
           textDecoration: 'underline',
           textDecorationColor: 'grey',
           textUnderlineOffset: '8px',
+          fontSize: '1.3rem',
+          fontWeight: '500',
         }}
       >
         Categories
-      </h3>
+      </p>
       <Link
         onClick={() => setSelectedCat('Men')}
         className={styles.category}
