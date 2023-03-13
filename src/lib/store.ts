@@ -1,5 +1,6 @@
 import { Product } from '@prisma/client';
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface CartProduct extends Product {
   quantity: number;
@@ -18,6 +19,7 @@ interface ShopState {
   setCurrentSingleProduct: (product: any) => void;
   totalPrice: number;
   setTotalPrice: (price: number, op: string) => void;
+  removeFromCart: (productId: string) => void;
 }
 
 const increaseQuantity = (cart: CartProduct[], productId: string) => {
@@ -53,28 +55,43 @@ const updatePrice = (price: any, op: string, currentPrice: any) => {
   return updatedPrice;
 };
 
-export const useShopStore = create<ShopState>()((set) => ({
-  products: null,
-  setProducts: (products) => set((state) => ({ products })),
-  selectedCat: 'All products',
-  setSelectedCat: (category) => set((state) => ({ selectedCat: category })),
-  cart: [],
-  updateCart: (product: Product) =>
-    set((state) => ({ cart: [...state.cart, { ...product, quantity: 1 }] })),
-  increaseProduct: (productId) =>
-    set((state) => ({
-      cart: increaseQuantity(state.cart, productId),
-    })),
-  decreaseProduct: (productId) =>
-    set((state) => ({
-      cart: decreaseQuantity(state.cart, productId),
-    })),
-  currentSingleProduct: null,
-  setCurrentSingleProduct: (product) =>
-    set((state) => ({ currentSingleProduct: product })),
-  totalPrice: 0,
-  setTotalPrice: (price: number, op: string) =>
-    set((state) => ({
-      totalPrice: updatePrice(price, op, state.totalPrice),
-    })),
-}));
+export const useShopStore = create<ShopState>()(
+  // persist(
+  (set) => ({
+    products: null,
+    setProducts: (products) => set((state) => ({ products })),
+    selectedCat: 'All products',
+    setSelectedCat: (category) => set((state) => ({ selectedCat: category })),
+    cart: [],
+    updateCart: (product: Product) =>
+      set((state) => ({
+        cart: [...state.cart, { ...product, quantity: 1 }],
+      })),
+    removeFromCart: (productId: string) =>
+      set((state) => ({
+        cart: state.cart.filter((p) => p.id !== productId),
+      })),
+    increaseProduct: (productId) =>
+      set((state) => ({
+        cart: increaseQuantity(state.cart, productId),
+      })),
+    decreaseProduct: (productId) =>
+      set((state) => ({
+        cart: decreaseQuantity(state.cart, productId),
+      })),
+    currentSingleProduct: null,
+    setCurrentSingleProduct: (product) =>
+      set((state) => ({ currentSingleProduct: product })),
+    totalPrice: 0,
+    setTotalPrice: (price: number, op: string) =>
+      set((state) => ({
+        totalPrice: updatePrice(price, op, state.totalPrice),
+      })),
+  })
+  // {
+  //   partialize: (state) => ({ cart: state.cart }),
+  //   name: 'cartStorage',
+  //   storage: createJSONStorage(() => sessionStorage),
+  // }
+  // )
+);
