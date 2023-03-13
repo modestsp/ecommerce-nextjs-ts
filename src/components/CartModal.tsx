@@ -6,6 +6,7 @@ import Image from 'next/image';
 import imageLoader from '@/utils/imageLoader';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Rating } from '@mui/material';
+import { Product } from '@prisma/client';
 
 export const variants = {
   hidden: {
@@ -40,6 +41,15 @@ const CartModal = ({
 }) => {
   const cart = useShopStore((state) => state.cart);
   const totalPrice = useShopStore((state) => state.totalPrice);
+  const removeFromCart = useShopStore((state) => state.removeFromCart);
+  const setTotalPrice = useShopStore((state) => state.setTotalPrice);
+
+  const handleDelete = (product: Product) => {
+    console.log(product.id);
+    const productQuantity = cart.find((p) => p.id === product.id)?.quantity;
+    setTotalPrice(product.price! * productQuantity!, 'substract');
+    removeFromCart(product.id);
+  };
 
   return (
     <motion.div
@@ -92,7 +102,7 @@ const CartModal = ({
                       {product.price! *
                         cart.find((p) => p.id === product.id)?.quantity!}
                     </span>
-                    <DeleteIcon />
+                    <DeleteIcon onClick={() => handleDelete(product)} />
                   </div>
                 </div>
               </li>
