@@ -7,7 +7,7 @@ import styles from '../styles/Shop.module.css';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetProducts } from '@/hooks/useGetProducts';
 import CartModal from './CartModal';
 import { AnimatePresence } from 'framer-motion';
@@ -16,12 +16,17 @@ import imageLoader from '@/utils/imageLoader';
 
 const ShopHeader = () => {
   const [search, setSearch] = useState('');
+  const [isHydrated, setIsHydrated] = useState(false);
   const [toggleCart, setToggleCart] = useState<boolean>(false);
   const { isLoading, data: user } = useGetUser();
   const setProducts = useShopStore((state) => state.setProducts);
   const cart = useShopStore((state) => state.cart);
   const router = useRouter();
   // if (isLoading) return <div className={styles.header}>Loading!</div>;
+
+  // useEffect(() => {
+  //   setIsHydrated(true);
+  // }, []);
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
@@ -88,7 +93,7 @@ const ShopHeader = () => {
             href={'/login'}
             style={{ textDecoration: 'none', color: 'white' }}
           >
-            LOGIN
+            LOG IN
           </Link>
         </div>
       )}
