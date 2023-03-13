@@ -10,13 +10,13 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 const ImageCard = ({ product, i }: { product: any; i?: number }) => {
   const router = useRouter();
-  const [addedToCart, setAddedToCart] = useState<boolean>(false);
+  // const [addedToCart, setAddedToCart] = useState<boolean>(false);
   const currentRoute = router.asPath;
   const cart = useShopStore((state) => state.cart);
   const updateCart = useShopStore((state) => state.updateCart);
+  const updatePrice = useShopStore((state) => state.setTotalPrice);
   const increaseProduct = useShopStore((state) => state.increaseProduct);
   const decreaseProduct = useShopStore((state) => state.decreaseProduct);
-  const updatePrice = useShopStore((state) => state.setTotalPrice);
   // const totalPrice = useShopStore(state => state.totalPrice)
   const currentProduct = useShopStore((state) =>
     state.cart.find((p) => p.id === product.id)
@@ -24,33 +24,28 @@ const ImageCard = ({ product, i }: { product: any; i?: number }) => {
 
   const handleAddToCart = (e: any) => {
     e.stopPropagation();
-    setAddedToCart(true);
+    // setAddedToCart(true);
     updateCart(product);
     updatePrice(product.price, 'add');
-    console.log('CART IN ADD TO CARD', cart);
   };
   const handleIncreaseProduct = () => {
     increaseProduct(product.id);
     updatePrice(product.price, 'add');
-    console.log('CART IN INCREASE', cart);
   };
   const handleDecreaseProduct = () => {
     decreaseProduct(product.id);
     updatePrice(product.price, 'substract');
-    console.log('CANTIDAD', currentProduct?.quantity!);
     // if (currentProduct?.quantity! <= 0) {
     //   setAddedToCart(false);
     // }
-    console.log('CART IN DECREASE', cart);
-    console.log('CURRENT PRODUCT QTY', currentProduct);
   };
   const staggerAnimProduct = {
     hidden: {
       opacity: 0,
-      translateY: -50,
+      // translateY: -50,
     },
     visible: {
-      translateY: 0,
+      // translateY: 0,
       opacity: 1,
       // transition: {
       //   duration: 0.1,
