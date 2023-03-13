@@ -6,11 +6,41 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Product } from '@prisma/client';
 import { ProductWithReviews } from '@/pages/shop/[category]/[productId]';
+import { useShopStore } from '@/lib/store';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const ProductCard = ({ product }: { product: ProductWithReviews }) => {
   const { id, name, url, photographerUrl, photographerName, price, stars } =
     product;
   const [size, setSize] = useState<string>('');
+  const updateCart = useShopStore((state) => state.updateCart);
+  const updatePrice = useShopStore((state) => state.setTotalPrice);
+  const increaseProduct = useShopStore((state) => state.increaseProduct);
+  const decreaseProduct = useShopStore((state) => state.decreaseProduct);
+  const currentProduct = useShopStore((state) =>
+    state.cart.find((p) => p.id === product.id)
+  );
+  const handleAddToCart = () => {
+    // const handleAddToCart = (e: any) => {
+    //   e.stopPropagation();
+    // setAddedToCart(true);
+    updateCart(product);
+    updatePrice(product.price!, 'add');
+    // };
+  };
+  const handleIncreaseProduct = () => {
+    increaseProduct(product.id);
+    updatePrice(product.price!, 'add');
+  };
+  const handleDecreaseProduct = () => {
+    decreaseProduct(product.id);
+    updatePrice(product.price!, 'substract');
+    // if (currentProduct?.quantity! <= 0) {
+    //   setAddedToCart(false);
+    // }
+  };
+
   return (
     <div className={styles.productCard}>
       <section className={styles.productContent}>
@@ -119,7 +149,30 @@ const ProductCard = ({ product }: { product: ProductWithReviews }) => {
         </div>
         <p className={styles.productStock}>Status: In Stock</p>
         <p className={styles.productPrice}>Price: ${product.price}</p>
-        <button className={styles.addToCartButton}>ADD TO CART</button>
+        {currentProduct?.quantity ? (
+          <div className={styles.updateProductButtons}>
+            <button
+              onClick={handleDecreaseProduct}
+              className={styles.decreaseButton}
+            >
+              <RemoveIcon />
+            </button>
+            {currentProduct?.quantity!}
+            <button
+              onClick={handleIncreaseProduct}
+              className={styles.increaseButton}
+            >
+              <AddIcon />
+            </button>
+          </div>
+        ) : (
+          <button onClick={handleAddToCart} className={styles.addToCartButton}>
+            ADD TO CART
+          </button>
+        )}
+        {/* <button className={styles.addToCartButton} onClick={handleAddToCart}>
+
+        </button> */}
       </section>
     </div>
   );
