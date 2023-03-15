@@ -7,6 +7,15 @@ import { useQueryClient } from 'react-query';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
+import { useGetUser } from '@/hooks/useGetUser';
+import { object, string } from 'zod';
+
+export const createReviewSchema = object({
+  review: string({
+    required_error: 'Review is required',
+  }).min(3, 'Review should be at least 3 characters'),
+});
+
 const DisplayReviews = ({
   productId,
   reviews,
@@ -16,6 +25,7 @@ const DisplayReviews = ({
 }) => {
   const [review, setReview] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
+  // const { isLoading, data: user } = useGetUser();
   const [reviewValue, setReviewValue] = useState<number | null>(0);
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -24,6 +34,20 @@ const DisplayReviews = ({
   };
   const handleSubmit = async () => {
     setLoading(true);
+    if (review === '') {
+      toast.error('Review cannot be empty', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      setLoading(false);
+      return;
+    }
     const createReviewUrl = '/api/review/create';
     const response = await fetch(createReviewUrl, {
       method: 'POST',
@@ -50,7 +74,7 @@ const DisplayReviews = ({
       setReviewValue(0);
       setLoading(false);
     } else {
-      toast.error('Something went bad :S!', {
+      toast.error('You need to be logged in :S!', {
         position: 'top-right',
         autoClose: 2000,
         hideProgressBar: false,
