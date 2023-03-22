@@ -5,7 +5,6 @@ export default async function getAllProductsHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('HELLO WORLD');
   try {
     const search = req.query.search;
     if (search) {

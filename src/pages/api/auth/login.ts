@@ -77,9 +77,9 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   // await saveSession({ user, session }, req);
   req.session.user = { ...user, session, isLoggedIn: true };
   await req.session.save();
-  console.log('req in login', req.session);
+  // console.log('req in login', req.session);
   // return res.status(200).json({ user, session });
-  console.log('AASDASDAS', req.session.user);
+  // console.log('AASDASDAS', req.session.user);
   res.status(200).send(req.session.user);
 }
 

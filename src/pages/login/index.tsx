@@ -38,6 +38,7 @@ export default function LogInForm() {
     try {
       const { username, password } = data;
       await userService.login({ username, password });
+      // console.log('ROUTINGGGGGGGGGGGGGG', await response.json());
       router.push('/shop');
     } catch (e: any) {
       setErrorMessage(e.response?.data?.error);
