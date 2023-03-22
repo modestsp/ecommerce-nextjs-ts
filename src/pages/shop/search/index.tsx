@@ -10,13 +10,20 @@ import Image from 'next/image';
 import { Rating } from '@mui/material';
 import { Router, useRouter } from 'next/router';
 import { useShopStore } from '@/lib/store';
+import Footer from '@/components/Footer';
 
 const Search = () => {
   const router = useRouter();
   const products = useShopStore((state) => state.products);
   const currentRoute = router.asPath;
   if (!products || products.length === 0) {
-    return <div>No Results</div>;
+    return (
+      <div
+        style={{ fontSize: '1.5rem', marginLeft: '4rem', marginTop: '2rem' }}
+      >
+        No Results
+      </div>
+    );
   }
   console.log(products);
   return (
@@ -68,7 +75,7 @@ Search.getLayout = function getLayout(page: ReactElement) {
         <CategoriesSidebar />
         {page}
       </section>
-      <footer className={styles.footer}>Footer</footer>
+      <Footer />
     </main>
   );
 };
