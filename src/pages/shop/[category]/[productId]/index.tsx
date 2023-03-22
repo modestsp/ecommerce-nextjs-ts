@@ -47,7 +47,6 @@ const Product = ({
 }) => {
   const router = useRouter();
   const currentProduct = JSON.parse(product);
-  console.log('CURRENT', currentProduct);
   const currentRelatedProducts = JSON.parse(relatedProducts);
   const [currentRoute, setCurrentRoute] = useState('');
   const sliderRef = useRef<HTMLUListElement | null>(null);
