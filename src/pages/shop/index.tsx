@@ -26,13 +26,14 @@ const Shop: ShopPageWithLayout = () => {
   if (loadingProducts) {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner}></div>;
+        <div className={styles.loadingSpinner}></div>
       </div>
     );
   }
+
   return (
     <div className={styles.productsGalleryContainer}>
-      {products!.map((product: any, i) => {
+      {products?.map((product: any, i) => {
         return <ImageCard i={i} key={product.id} product={product} />;
       })}
     </div>
