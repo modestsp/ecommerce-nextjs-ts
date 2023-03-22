@@ -16,8 +16,12 @@ const Category: ShopPageWithLayout = ({ products }: { products: any }) => {
   const router = useRouter();
   const currentRoute = router.asPath;
   const productsFromCat = JSON.parse(products);
-  console.log('PRODUCTS *********', JSON.parse(products));
-  if (!productsFromCat || !products) return <div>Loading!</div>;
+  if (!productsFromCat || !products)
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>;
+      </div>
+    );
 
   return (
     <div className={styles.productsGalleryContainer}>
