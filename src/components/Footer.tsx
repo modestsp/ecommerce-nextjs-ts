@@ -12,11 +12,11 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div>
-        <Link href={'https://github.com/srsebbi'}>
+        <Link href={'https://github.com/modestsp'}>
           <GitHubIcon />
         </Link>
         {/* <Image
-          onClick={() => router.push('https://github.com/srsebbi')}
+          onClick={() => router.push('https://github.com/modestsp')}
           src={gitHubIcon}
           alt={'go to my personal github page'}
           width={20}
@@ -32,5 +32,5 @@ const Footer = () => {
     </footer>
   );
 };
-
+// ARREGLAR SIGNUP, CHECKOUT
 export default Footer;
