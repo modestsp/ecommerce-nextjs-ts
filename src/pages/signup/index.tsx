@@ -62,8 +62,8 @@ const SignUp = () => {
       }, 3000);
     }
   };
-  if (isLoading) return <div>Loading!</div>;
-  if (user.name) {
+  // if (isLoading) return <div>Loading!</div>;
+  if (user?.name) {
     router.push('/shop');
   }
   return (
