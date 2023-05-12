@@ -16,8 +16,6 @@ export const createSessionSchema = object({
   password: string().min(1, 'Password cannot be empty'),
 });
 
-// REVISAR EL ERROR QUE VUELVE DESDE EL BACKEND PARA UN CORRECTO MENSAJE
-
 export default function LogInForm() {
   const { isLoading, data: user } = useGetUser();
   const router = useRouter();
@@ -38,11 +36,9 @@ export default function LogInForm() {
     try {
       const { username, password } = data;
       await userService.login({ username, password });
-      // console.log('ROUTINGGGGGGGGGGGGGG', await response.json());
       router.push('/shop');
     } catch (e: any) {
       setErrorMessage(e.response?.data?.error);
-      // REVISAR EL ERROR QUE VUELVE DESDE EL BACKEND PARA UN CORRECTO MENSAJE
       setTimeout(() => {
         setErrorMessage(null);
       }, 3000);
