@@ -1,15 +1,32 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
-import { prisma } from '../utils/db.server';
-import Hat from '../../public/Hat1.svg';
-import Button from '@mui/material/Button';
 import Link from 'next/link';
-import { useGetUser } from '@/hooks/useGetUser';
+import { useGetProducts } from '@/hooks/useGetProducts';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Image from 'next/image';
+import imageLoader from '@/utils/imageLoader';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Home() {
-  // const { isLoading } = useGetUser();
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/shop');
+  }, []);
+  const { isLoading, data } = useGetProducts();
+  if (!isLoading) console.log(data?.slice(2));
+
+  if (isLoading)
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
+      </div>
+    );
+  const featured = data?.slice(0, 2);
+  console.log(featured);
   // console.log('RESPONSE', JSON.parse(products));
+
   return (
     <>
       <Head>
@@ -19,25 +36,41 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {/* <Image
-          src="https://images.unsplash.com/photo-1620231109648-302d034cb29b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXx3U1FJeWxiT2w1VXx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
-          alt="Hat1"
-          width={400}
-          height={400}
-        /> */}
         <section className={styles.mainContent}>
-          <p>FEATURED</p>
           <div className={styles.logoCategories}>
             <p>LOGO</p>
             <Link href={'/shop'} className={styles.viewCategories}>
               View Categories
             </Link>
           </div>
+          <Carousel
+            infiniteLoop={true}
+            showStatus={false}
+            className={styles.carousel}
+            autoPlay
+            showThumbs={false}
+          >
+            {data?.slice(0, 4).map((product) => {
+              return (
+                <div className={styles.imageContainer} key={product.id}>
+                  <Image
+                    src={product.url}
+                    width={250}
+                    height={350}
+                    alt={product.name}
+                    unoptimized
+                    loader={imageLoader}
+                  />
+                  <p className="legend">{product.name}</p>
+                </div>
+              );
+            })}
+          </Carousel>
         </section>
-        <section className={styles.offers}>
+        {/* <section className={styles.offers}>
           <p>OFFERS</p>
           <Button variant="contained">Hello BUTTON</Button>
-        </section>
+        </section> */}
       </main>
     </>
   );

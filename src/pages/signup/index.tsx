@@ -34,7 +34,6 @@ export const createUserSchema = object({
   path: ['passwordConfirm'],
 });
 
-// Revisar si funciona el mensaje de error que viene desde el backend
 const SignUp = () => {
   const { isLoading, data: user } = useGetUser();
   const router = useRouter();
@@ -62,7 +61,7 @@ const SignUp = () => {
       }, 3000);
     }
   };
-  // if (isLoading) return <div>Loading!</div>;
+
   if (user?.name) {
     router.push('/shop');
   }

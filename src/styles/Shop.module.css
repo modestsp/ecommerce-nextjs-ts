@@ -142,6 +142,12 @@
   position: relative;
 }
 
+.cartContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .cartLength {
   position: absolute;
   border: none;
@@ -150,7 +156,7 @@
   color: red;
   font-family: var(--secondary-font);
   font-weight: 900;
-  left: 62px;
+  left: 5px;
   top: -20px;
   font-size: 15px;
 }
@@ -179,6 +185,7 @@
 
 .userData p {
   color: #ffffff;
+  margin-left: 1rem;
 }
 
 .cartModal {
@@ -279,6 +286,7 @@
   }
   .userData {
     margin-left: auto;
+    gap: 1rem;
   }
   .cartModal {
     width: 80%;

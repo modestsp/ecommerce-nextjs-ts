@@ -72,15 +72,18 @@ const ShopHeader = () => {
       {user ? (
         <div className={styles.userData}>
           <p>{user.name}</p>
-          <ShoppingCartIcon
-            onClick={() => setToggleCart(!toggleCart)}
-            style={{ color: 'white', cursor: 'pointer' }}
-          />
+          <div className={styles.cartContainer}>
+            <button className={styles.cartLength}>{cart.length}</button>
+            <ShoppingCartIcon
+              onClick={() => setToggleCart(!toggleCart)}
+              style={{ color: 'white', cursor: 'pointer' }}
+            />
+          </div>
+
           <LogoutIcon
             onClick={handleLogout}
             style={{ color: 'white', cursor: 'pointer' }}
           />
-          <button className={styles.cartLength}>{cart.length}</button>
         </div>
       ) : (
         <div className={styles.userData}>
