@@ -10,7 +10,49 @@
   display: flex;
   flex-grow: 1;
   align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem 0 5rem 0;
 }
+
+.loadingContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin-top: 10rem;
+}
+.loadingSpinner:after {
+  content: ' ';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: spinner 1.2s linear infinite;
+}
+.carousel {
+  display: flex;
+  width: 250px;
+  height: 350px;
+  /* width: 500px;
+  height: 500px; */
+}
+
+/* .imageContainer{
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 350px;
+  background-color: aqua;
+} */
 
 .viewCategories {
   text-decoration: none;
